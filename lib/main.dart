@@ -27,6 +27,14 @@ class MyApp extends StatelessWidget {
         //   textTheme: ButtonTextTheme.accent,
         //   ),
         fontFamily: 'Lato',
+          tabBarTheme: TabBarTheme(
+              labelColor: Colors.pink[800],
+              labelStyle: TextStyle(color: Colors.pink[800]), // color for text
+              indicator: UnderlineTabIndicator( // color for indicator (underline)
+                  borderSide: BorderSide(color: Colors.greenAccent))),
+          primaryColor: Colors.pink[800], // outdated and has no effect to Tabbar
+          accentColor: Colors.cyan[600] // deprecated,
+
       ),
       home: const AuthScreen(),
       routes: {
