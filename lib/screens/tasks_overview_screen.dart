@@ -9,6 +9,17 @@ class TasksOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFA9A9A9),
+              Color(0xFF383838)
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )),
+      child: const Text('Overview screen'),
+    );
   }
 }
