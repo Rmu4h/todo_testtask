@@ -1,12 +1,13 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:todo_testtask/providers/task.dart';
 import 'package:http/http.dart' as http;
 
 class Tasks with ChangeNotifier{
-  List<Task> _items= [];
+  List<Task> _items= [
+    // Task(id: 'i1', title: 'Work task', description: 'create resume', image: image, dateTime: dateTime)
+  ];
 
   Future<void> fetchTasks() async{
     final url = Uri.parse('https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks.json');

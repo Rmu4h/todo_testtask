@@ -1,17 +1,17 @@
 
-import 'dart:html';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-enum TaskType{work, personal}
+enum TaskType { work, personal }
 
 class Task with ChangeNotifier{
-  final String id;
+  final String? id;
   final String title;
   final TaskType taskType;
   final String description;
-  final File image;
-  final DateTime dateTime;
+  final File? image;
+  final DateTime? dateTime;
 
   bool isUrgent;
 
