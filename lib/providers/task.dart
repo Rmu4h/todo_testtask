@@ -8,10 +8,10 @@ enum TaskType { work, personal }
 class Task with ChangeNotifier{
   final String? id;
   final String title;
-  final TaskType taskType;
+  TaskType taskType;
   final String description;
   final File? image;
-  final DateTime? dateTime;
+  final DateTime dateTime;
 
   bool isUrgent;
 
@@ -20,8 +20,8 @@ class Task with ChangeNotifier{
    required this.title,
    this.taskType = TaskType.work,
    required this.description,
-   required this.image,
-   required this.dateTime,
+    this.image,
+  required this.dateTime,
    this.isUrgent = false,
   });
 }

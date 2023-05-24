@@ -35,7 +35,16 @@ class _ImageInputState extends State<ImageInput> {
             child: ListTile(
               contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
               onTap: _takePicture,
-              title: const Text('Прикріпити файл'),
+              title: Text('Прикріпити файл',
+                style: TextStyle(
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .secondary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           )
         : Container(
@@ -44,7 +53,17 @@ class _ImageInputState extends State<ImageInput> {
             color: const Color(0xFFFBEFB4),
             child: ListTile(
               contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-              title: const Text('Вкладене зображення'),
+              title: Text('Вкладене зображення',
+                style: TextStyle(
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .secondary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  // height: 1.2,
+                ),
+              ),
               subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

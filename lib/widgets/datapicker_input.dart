@@ -20,11 +20,12 @@ class _DataPickerInputState extends State<DataPickerInput> {
         firstDate: DateTime(2015),
         lastDate: DateTime(2050));
 
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != currentDate) {
       setState(() {
         currentDate = pickedDate;
         showTime = true;
       });
+    }
   }
 
   @override
@@ -34,15 +35,33 @@ class _DataPickerInputState extends State<DataPickerInput> {
         color: const Color(0xFFFBEFB4),
         child: (showTime)
             ? ListTile(
-                contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+                contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
 
                 onTap: () => _selectDate(context),
                 title:
-                    Text(DateFormat.yMMMMd('uk').format(currentDate)), // yMMMMd
+                    Text(DateFormat.yMMMMd('uk').format(currentDate),
+                      style: TextStyle(
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .secondary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ), // yMMMMd
               )
             : ListTile(
-                contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+                contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
                 onTap: () => _selectDate(context),
-                title: Text('Дата завершення:')));
+                title: Text('Дата завершення:',
+                  style: TextStyle(
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .secondary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )));
   }
 }

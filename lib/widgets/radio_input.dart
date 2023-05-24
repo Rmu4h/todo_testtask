@@ -7,12 +7,17 @@ import 'custom_radio.dart';
 
 class RadioInput extends StatefulWidget {
   final TaskType initialValue;
+  Task newTask;
+  // final TaskType taskType;
+
   final void Function(TaskType) onChanged;
 
 
-  const RadioInput({
+  RadioInput({
     Key? key,
     required this.initialValue,
+    required this.newTask,
+    // required this.initialValue,
     required this.onChanged,
   }) : super(key: key);
 
@@ -41,6 +46,7 @@ class _RadioInputState extends State<RadioInput> {
             child: ListTile(
               contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
               title: const Text('Робочі', style: TextStyle(
+                  fontWeight: FontWeight.w600,
                   fontSize: 18
               ),),
               leading: InkWell(
@@ -48,6 +54,7 @@ class _RadioInputState extends State<RadioInput> {
                   setState(() {
                     taskType = TaskType.work;
                     widget.onChanged(taskType!);
+                    widget.newTask.taskType = TaskType.work;
                   });
                 },
                 child: Container(

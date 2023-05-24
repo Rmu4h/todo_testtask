@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_testtask/providers/task.dart';
@@ -18,15 +17,28 @@ class CreateTaskScreen extends StatefulWidget {
 }
 
 class _CreateTaskScreenState extends State<CreateTaskScreen> {
-  final _titleController = TextEditingController();
+  final titleController = TextEditingController();
+  TaskType selectedTaskType = TaskType.work;
+  TextEditingController descriptionController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+
   bool isUrgent = false;
+
+
   final _formKey = GlobalKey<FormState>();
-  final _newTask = Task(id: null, title: '', description: '', image: null, dateTime: null);
+  var newTask =
+  Task(id: null,
+      taskType: TaskType.work,
+      title: '',
+      description: '',
+      image: null,
+      dateTime: DateTime.now());
   bool _isLoading = false;
 
-
-  Future<void> _saveFrom() async{
+  Future<void> _saveForm() async {
     final isValid = _formKey.currentState?.validate();
+    String title = titleController.text;
+    String description = descriptionController.text;
 
     if (!isValid!) {
       return;
@@ -36,21 +48,39 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     setState(() {
       _isLoading = true;
     });
-    try{
-      await Provider.of<Tasks>(context, listen: false).addTask(_newTask);
-    }catch(error){
-      print('save form error');
-      await showDialog(context: context, builder: (context) => AlertDialog(
-        title: const Text('An error occurred'),
-        content: const Text('Something went wrong'),
-        actions: [
-          TextButton(onPressed: (){
 
-            Navigator.of(context).pop();
+    newTask = Task(
+      id: newTask.id,
+      title: title,
+      taskType: selectedTaskType,
+      description: description,
+      image: newTask.image,
+      dateTime: selectedDate,
+      isUrgent: isUrgent,
+    );
 
-          }, child: const Text('Okay'))
-        ],
-      ));
+
+    try {
+
+      Provider.of<Tasks>(context, listen: false).addTask(newTask);
+
+    }
+    catch (error) {
+      print('save form error ${error}');
+      await showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(
+                title: const Text('An error occurred'),
+                content: const Text('Something went wrong'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Okay'))
+                ],
+              ));
     }
 
     setState(() {
@@ -64,7 +94,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-
         // width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
@@ -73,29 +102,64 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             )),
-        child: SingleChildScrollView(
-          child: Column(
+        child: _isLoading
+            ? const Center(
+          child: CircularProgressIndicator(),
+        )
+            : Form(
+          key: _formKey,
+          child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(36, 70, 36, 23),
                 child: Row(
                   children: [
-                    IconButton(onPressed: () {
-                      Navigator.of(context).pop();
-                    }, icon: Icon(Icons.arrow_back, size: 24, color: Theme.of(context).colorScheme.primary,)),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 24,
+                          color: Theme
+                              .of(context)
+                              .colorScheme
+                              .primary,
+                        )),
                     // TextFormField()
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
+                        controller: titleController,
                         decoration: const InputDecoration(
-                          labelText: 'Назва завдання...',
-                          border: InputBorder.none,
+                            labelText: 'Назва завдання...',
+                            border: InputBorder.none,
                             labelStyle: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
-                            )
-                        ),
-                        controller: _titleController,
+                            )),
+                        textInputAction: TextInputAction.next,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please provide a value';
+                          }
+
+                          return null;
+                        },
+                        onSaved: (value) {
+                          // newTask = Task(id: newTask.id,
+                          //     title: value ?? '',
+                          //     taskType: TaskType.work,
+                          //     description: newTask.description,
+                          //     image: newTask.image,
+                          //     dateTime: newTask.dateTime,
+                          //     isUrgent: newTask.isUrgent,
+                          // );
+
+                          print('onSaved _newTask isUrgent ${newTask.isUrgent}');
+                          print('${newTask.taskType}');
+                        },
+                        // controller: _titleController,
                       ),
                     ),
                   ],
@@ -105,19 +169,53 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 initialValue: TaskType.work,
                 onChanged: (value) {
                   // Handle the selected value change here
+                  // newTask = Task(id: newTask.id,
+                  //     title: newTask.title,
+                  //     taskType: value,
+                  //     description: newTask.description,
+                  //     image: newTask.image,
+                  //     dateTime: newTask.dateTime,
+                  //     isUrgent: newTask.isUrgent,
+                  //
+                  // );
+                  selectedTaskType = value;
                   print('Selected value: $value');
                 },
+                newTask: newTask,
               ),
               const SizedBox(
                 height: 16,
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
-
                 color: const Color(0xFFFBEFB4),
                 child: TextFormField(
-                  initialValue: 'Додати опис...',
+                  controller: descriptionController,
+                  // initialValue: 'Додати опис...',
                   maxLines: 3,
+                  keyboardType: TextInputType.multiline,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    if (value.length < 10) {
+                      return 'Should be at least 10 characters long.';
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) {
+                    // newTask = Task(id: newTask.id,
+                    //     title: newTask.title,
+                    //     taskType: newTask.taskType,
+                    //     description: value ?? '',
+                    //
+                    //     image: newTask.image,
+                    //     dateTime: newTask.dateTime);
+
+                    print('onSaved _newTask ${newTask}');
+
+                  },
                 ),
               ),
               const SizedBox(
@@ -136,13 +234,24 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
                 color: const Color(0xFFFBEFB4),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                  contentPadding:
+                  const EdgeInsets.only(left: 0.0, right: 0.0),
                   leading: InkWell(
                     onTap: () {
                       setState(() {
                         // taskType = TaskType.work;
                         // widget.onChanged(taskType!);
                         isUrgent = !isUrgent;
+                        // newTask = Task(id: newTask.id,
+                        //   title: newTask.title,
+                        //   taskType: newTask.taskType,
+                        //   description: newTask.description,
+                        //   image: newTask.image,
+                        //   dateTime: newTask.dateTime,
+                        //   isUrgent: isUrgent,
+                        // );
+
+                        print('this is isUrgent value ${isUrgent}');
                       });
                     },
                     child: Container(
@@ -174,33 +283,53 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       ),
                     ),
                   ),
-                  title: Text('Термінове'),
-
+                  title: Text('Термінове',
+                    style: TextStyle(
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .secondary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      // height: 1.2,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)
-                ),
-                onPressed: () {
-                  // Navigator.of(context).pushNamed(TasksOverviewScreen.routeName);
-                  // Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Створити',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+              Align(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
+                  onPressed: () {
+                    _saveForm();
+                     print('form saved');
+
+                    print('this is title newTask ${newTask.title}');
+                    print('this is isUrgent newTask ${newTask.isUrgent}');
+                     print('this is dateTime newTask ${newTask.dateTime}');
+
+                    // Navigator.of(context).pushNamed(TasksOverviewScreen.routeName);
+                    // Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Створити',
+                    style: TextStyle(
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .secondary,
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                       // height: 1.2,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ],
