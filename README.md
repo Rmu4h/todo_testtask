@@ -1,16 +1,16 @@
-# todo_testtask
+# todo test task
 
-A new Flutter project.
+What was implemented:
+1. Download a list of tasks from the server using firebase and display them on the screen
+2. Create and edit tasks and upload them to the server,
+3. Execute tasks (mark them completed) and save the status(isCompleted) of the task on the server
+4. Attach the image to the task, but do not save it on the server yet
+5. Filter tasks by type
+6. Delete tasks
 
-## Getting Started
+Technology stack:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. DART
+2. FLUTTER
+3. Provider state management
+4. Firebase server
