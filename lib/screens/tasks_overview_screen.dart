@@ -47,6 +47,8 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen> with SingleTi
 
   @override
   Widget build(BuildContext context) {
+    final tasksData = Provider.of<Tasks>(context);
+    final tasks = tasksData.tasks;
     print('build run');
 
     return Scaffold(
@@ -113,7 +115,7 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen> with SingleTi
 
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right:10, left: 10),
+                  margin: const EdgeInsets.only(right:10, left: 10),
                   height: 48,
                   width: 106,
 
@@ -194,7 +196,10 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen> with SingleTi
                     builder: (context, taskData, child) => ListView.builder(
                       itemCount: taskData.tasks.length,
                       itemBuilder: (context, index){
-                        return TaskItem(taskData.tasks[index]);
+                        return ChangeNotifierProvider.value(
+                          value: tasks[index],
+                          child: TaskItem(taskData.tasks[index]),
+                        );
                       },
                     ),
                   );
@@ -218,7 +223,11 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen> with SingleTi
             builder: (context, taskData, child) => ListView.builder(
               itemCount: taskData.onlyWorkList.length,
               itemBuilder: (context, index){
-                return TaskItem(taskData.onlyWorkList[index]);
+                return ChangeNotifierProvider.value(
+                  value: tasks[index],
+                  child: TaskItem(taskData.onlyWorkList[index]),
+                );
+                // return TaskItem(taskData.onlyWorkList[index]);
               },
             ),
           )
@@ -236,10 +245,13 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen> with SingleTi
             builder: (context, taskData, child) => ListView.builder(
               itemCount: taskData.onlyPersonalList.length,
               itemBuilder: (context, index){
-                return TaskItem(taskData.onlyPersonalList[index]);
+                return ChangeNotifierProvider.value(
+                  value: tasks[index],
+                  child: TaskItem(taskData.onlyPersonalList[index]),
+                );
               },
             ),
-          ),
+          )
         ),
       ]),
       floatingActionButton: FloatingActionButton(

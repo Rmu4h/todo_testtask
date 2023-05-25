@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_testtask/providers/task.dart';
 import 'package:todo_testtask/providers/tasks.dart';
 import 'package:todo_testtask/screens/auth_screen.dart';
 import 'package:todo_testtask/screens/create_task_screen.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        // ChangeNotifierProvider.value(
+        //   value: Task(),
+        // ),
         ChangeNotifierProvider.value(
           value: Tasks(),
         ),

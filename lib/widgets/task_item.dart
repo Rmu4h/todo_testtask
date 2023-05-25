@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/task.dart';
 import '../screens/edit_task_screen.dart';
@@ -18,13 +19,13 @@ class _TaskItemState extends State<TaskItem> {
 
   @override
   Widget build(BuildContext context) {
+  final task = Provider.of<Task>(context, listen: false);
 
-
-    print('task ${widget.task}');
+    print('task ${task}');
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       decoration: BoxDecoration(
-          color: widget.task.isUrgent ? const Color(0xFFFF8989) :  const Color(0xFFDBDBDB),
+          color: task.isUrgent ? const Color(0xFFFF8989) :  const Color(0xFFDBDBDB),
           borderRadius: BorderRadius.circular(15)
         //more than 50% of width makes circle
       ),
@@ -33,34 +34,40 @@ class _TaskItemState extends State<TaskItem> {
       child: ListTile(
         onTap: () {
           Navigator.of(context).pushNamed(EditTaskScreen.routeName,
-            // arguments: {
-            //  'title': widget.task.title,
-            //   'isUrgent': widget.task.isUrgent
-            // },
               arguments: Task(
-                  id: widget.task.id,
-                  title: widget.task.title,
-                  taskType: widget.task.taskType,
-                  description: widget.task.description,
-                  image: widget.task.image,
-                  dateTime: widget.task.dateTime,
-                  isUrgent: widget.task.isUrgent,
+                  id: task.id,
+                  title: task.title,
+                  taskType: task.taskType,
+                  description: task.description,
+                  image: task.image,
+                  dateTime: task.dateTime,
+                  isUrgent: task.isUrgent,
 
               )
           );
         },
-       leading: (widget.task.taskType == TaskType.work) ? const Icon(Icons.work_outline) : const Icon(Icons.home_outlined),
-        title: Text(widget.task.title),
-        subtitle: Text(widget.task.dateTime.toString()),
+       leading: (task.taskType == TaskType.work) ? const Icon(Icons.work_outline) : const Icon(Icons.home_outlined),
+        title: Text(task.title),
+        subtitle: Text(task.dateTime.toString()),
 
-        trailing: CustomCheckbox(
-          value: isChecked,
-          onChanged: (value) {
-            setState(() {
-              print('is checked ${isChecked}');
-              isChecked = value;
-            });
-          },
+        trailing: Consumer<Task>(
+          builder:(context, task, _) => IconButton(
+              onPressed: (){
+                print('IconButton work');
+                task.toggleCompletedStatus(task.id, task.isCompleted);
+              },
+              icon: CustomCheckbox(
+                value: task.isCompleted,
+                onChanged: (value) {
+                  setState(() {
+                    print('is checked ${task.isCompleted}');
+                    // task.isCompleted = value;
+                    task.toggleCompletedStatus(task.id, task.isCompleted);
+
+                  });
+                },
+              ),
+            ),
         ),
       ),
     );

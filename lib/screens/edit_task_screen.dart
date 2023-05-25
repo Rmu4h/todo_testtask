@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/task.dart';
+import '../providers/tasks.dart';
 import '../widgets/datapicker_input.dart';
 import '../widgets/image_input.dart';
 import '../widgets/radio_input.dart';
@@ -9,8 +10,7 @@ import '../widgets/radio_input.dart';
 class EditTaskScreen extends StatefulWidget {
   static const routeName = '/edit-task';
 
-
-  const EditTaskScreen( {Key? key}) : super(key: key);
+  const EditTaskScreen({Key? key}) : super(key: key);
 
   @override
   State<EditTaskScreen> createState() => _EditTaskScreenState();
@@ -19,20 +19,44 @@ class EditTaskScreen extends StatefulWidget {
 class _EditTaskScreenState extends State<EditTaskScreen> {
   TaskType selectedTaskType = TaskType.work;
 
-
   final _formKey = GlobalKey<FormState>();
+  late Task taskValues;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    taskValues = ModalRoute.of(context)!.settings.arguments as Task;
+
+    // editedTask = Provider.of<Tasks>(context, listen: false).findById(editedTask.id);
+    super.didChangeDependencies();
+  }
+
+  Future<void> _saveUpdatedForm(
+      id, title, taskType, description, dateTime, isUrgent, isCompleted) async {
+    final editedTask = Task(
+        id: id,
+        title: title,
+        taskType: taskType,
+        description: description,
+        dateTime: dateTime,
+        isUrgent: isUrgent,
+        isCompleted: isCompleted,
+    );
+    await Provider.of<Tasks>(context, listen: false).updateTask(id, editedTask);
+  }
+
 
 
 
   @override
   Widget build(BuildContext context) {
-    final taskValues = ModalRoute.of(context)!.settings.arguments as Task;
     final titleController = TextEditingController(text: taskValues.title);
-    TextEditingController descriptionController = TextEditingController(text: taskValues.description);
+    TextEditingController descriptionController =
+        TextEditingController(text: taskValues.description);
 
-    // final task = Provider.of<Task>(context, listen: false);
+    // final task = Provider.of<Tasks>(context, listen: false);
 
-     print('taskValues ${taskValues.id}');
+    // print('taskValues ${task.id}');
     print('taskValues title ${taskValues}');
 
     return Scaffold(
@@ -41,10 +65,10 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )),
+          colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        )),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -61,10 +85,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         icon: Icon(
                           Icons.arrow_back,
                           size: 24,
-                          color: Theme
-                              .of(context)
-                              .colorScheme
-                              .primary,
+                          color: Theme.of(context).colorScheme.primary,
                         )),
                     // TextFormField()
                     Expanded(
@@ -95,22 +116,21 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                           //     dateTime: newTask.dateTime,
                           //     isUrgent: newTask.isUrgent,
                           // );
-
+                          print('on Saved work');
                         },
                         // controller: _titleController,
                       ),
                     ),
                     IconButton(
                         onPressed: () {
-                          // Navigator.of(context).pop();
+                          _saveUpdatedForm(taskValues.id,titleController.text, taskValues.taskType, descriptionController.text, taskValues.dateTime,  taskValues.isUrgent, taskValues.isCompleted);
+                          Navigator.of(context).pop();
+
                         },
                         icon: Icon(
                           Icons.done,
                           size: 24,
-                          color: Theme
-                              .of(context)
-                              .colorScheme
-                              .primary,
+                          color: Theme.of(context).colorScheme.primary,
                         )),
                   ],
                 ),
@@ -165,7 +185,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     //     dateTime: newTask.dateTime);
 
                     print('onSaved _newTask ${taskValues}');
-
                   },
                 ),
               ),
@@ -185,8 +204,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
                 color: const Color(0xFFFBEFB4),
                 child: ListTile(
-                  contentPadding:
-                  const EdgeInsets.only(left: 0.0, right: 0.0),
+                  contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
                   leading: InkWell(
                     onTap: () {
                       setState(() {
@@ -220,26 +238,24 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         padding: const EdgeInsets.all(0.0),
                         child: taskValues.isUrgent
                             ? Container(
-                          // width: 23.0,
-                          // height: 23.0,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFFFD600),
-                          ),
-                        )
+                                // width: 23.0,
+                                // height: 23.0,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xFFFFD600),
+                                ),
+                              )
                             : Container(
-                          // width: 23.0,
-                          // height: 23.0,
-                        ),
+                                // width: 23.0,
+                                // height: 23.0,
+                                ),
                       ),
                     ),
                   ),
-                  title: Text('Термінове',
+                  title: Text(
+                    'Термінове',
                     style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .secondary,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       // height: 1.2,
@@ -253,6 +269,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               Align(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF8989),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
@@ -269,12 +286,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     // Navigator.of(context).pop();
                   },
                   child: Text(
-                    'Створити',
+                    'Видалити',
                     style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .secondary,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                       // height: 1.2,

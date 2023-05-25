@@ -51,6 +51,7 @@ class Tasks with ChangeNotifier {
             // image: taskData['image'],
             dateTime: DateTime.parse(taskData['dateTime']),
             isUrgent: taskData['isUrgent'],
+            isCompleted: taskData['isCompleted']
         ));
       });
       _items = loadedTasks;
@@ -72,7 +73,9 @@ class Tasks with ChangeNotifier {
             'taskType': task.taskType.toString(),
             'description': task.description,
             'dateTime': task.dateTime.toString(),
-            'isUrgent': task.isUrgent
+            'isUrgent': task.isUrgent,
+            'isCompleted': task.isCompleted
+
           })
       );
       final newTask = Task(
@@ -83,6 +86,8 @@ class Tasks with ChangeNotifier {
           // image: task.image,
           dateTime: task.dateTime,
           isUrgent: task.isUrgent,
+          isCompleted: task.isCompleted,
+
       );
 
       _items.add(newTask);
@@ -95,56 +100,38 @@ class Tasks with ChangeNotifier {
     }
   }
 
-  // void addTask(Task task){
-  //   final url = Uri.parse(
-  //       'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks.json');
-  //
-  //   print('add task work');
-  //
-  //   final taskTest = {
-  //     'title': task.title,
-  //     // 'taskType': task.taskType,
-  //     'description': task.description,
-  //     'dateTime': task.dateTime.toString(),
-  //     'isUrgent': task.isUrgent,
-  //   };
-  //
-  //   print('this is taskTest values ${taskTest.values}');
-  //
-  //   http.post(url,
-  //       body: json.encode(taskTest),
-  //   );
-  //
-  //   final newTask = Task(
-  //           id: DateTime.now().toString(),
-  //     title: task.title,
-  //     taskType: task.taskType,
-  //     description: task.description,
-  //     // image: task.image,
-  //     dateTime: task.dateTime,
-  //     isUrgent: task.isUrgent,
-  //   );
-  //
-  //   _items.add(newTask);
-  //
-  //   notifyListeners();
-  // }
+  Task findById(String id){
+    return _items.firstWhere((element) => element.id == id);
+  }
 
   Future<void> updateTask(String? id, Task newTask) async {
     final taskIndex = _items.indexWhere((task) => task.id == id);
+
+    print('updateTask work');
+    print('taskIndex $taskIndex');
 
     if (taskIndex >= 0) {
       final url = Uri.parse(
           'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks/$id.json');
 
+      print('newTask id ${newTask.id}');
+      print('newTask id ${newTask.title}');
+      print('newTask id ${newTask.taskType}');
+      print('newTask id ${newTask.description}');
+      print('newTask id ${newTask.dateTime}');
+      print('newTask id ${newTask.isUrgent}');
+      print('newTask id ${newTask.isCompleted}');
+
       await http.patch(url,
           body: json.encode({
             'title': newTask.title,
-            'taskType': newTask.taskType,
+            'taskType': newTask.taskType.toString(),
             'description': newTask.description,
-            'image': newTask.image,
-            'dateTime': newTask.dateTime,
+            // 'image': newTask.image,
+            'dateTime': newTask.dateTime.toString(),
             'isUrgent': newTask.isUrgent,
+            'isCompleted': newTask.isCompleted,
+
           }));
 
       _items[taskIndex] = newTask;
