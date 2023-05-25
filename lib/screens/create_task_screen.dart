@@ -154,6 +154,15 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
                       color: const Color(0xFFFBEFB4),
                       child: TextFormField(
+                        decoration:  InputDecoration(
+                            labelText: 'Додати опис...',
+                            border: InputBorder.none,
+                            labelStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              // height: 21,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            )),
                         controller: descriptionController,
                         // initialValue: 'Додати опис...',
                         maxLines: 3,
@@ -227,7 +236,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            // height: 1.2,
                           ),
                         ),
                       ),

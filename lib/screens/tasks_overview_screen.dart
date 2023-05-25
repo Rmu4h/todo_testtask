@@ -85,7 +85,10 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                         ? const Color(0xFFFBEFB4)
                         : const Color(0xFFDBDBDB),
                   ),
-                  child: const Center(child: Text('Усі')),
+                  child: const Center(child: Text('Усі', style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),)),
                 ),
               ),
               GestureDetector(
@@ -108,7 +111,10 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                         ? const Color(0xFFFBEFB4)
                         : const Color(0xFFDBDBDB),
                   ),
-                  child: const Center(child: Text('Робочі')),
+                  child: const Center(child: Text('Робочі', style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ))),
                 ),
               ),
               GestureDetector(
@@ -131,7 +137,10 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                         ? const Color(0xFFFBEFB4)
                         : const Color(0xFFDBDBDB),
                   ),
-                  child: const Center(child: Text('Особисті')),
+                  child: const Center(child: Text('Особисті', style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ))),
                 ),
               ),
             ],
@@ -233,6 +242,7 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
           ),
           child: Icon(
             Icons.add,
+            size: 29,
             color: Theme.of(context).colorScheme.secondary,
           ),
         ),

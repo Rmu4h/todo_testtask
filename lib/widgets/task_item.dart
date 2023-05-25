@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/task.dart';
@@ -44,7 +45,7 @@ class _TaskItemState extends State<TaskItem> {
             ? const Icon(Icons.work_outline)
             : const Icon(Icons.home_outlined),
         title: Text(task.title),
-        subtitle: Text(task.dateTime.toString()),
+        subtitle: Text(DateFormat.yMd('uk').format(task.dateTime)),
         trailing: Consumer<Task>(
           builder: (context, task, _) => IconButton(
             onPressed: () {
