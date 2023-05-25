@@ -9,24 +9,27 @@ class Tasks with ChangeNotifier {
     // Task(id: 'i1', title: 'Work task', description: 'create resume', image: image, dateTime: dateTime)
   ];
 
-  List<Task> get tasks{
+  List<Task> get tasks {
     print('this is items length ${_items.length}');
     return [..._items];
   }
 
   List<Task> get onlyWorkList {
-    return _items.where((element) => element.taskType == TaskType.work).toList();
+    return _items
+        .where((element) => element.taskType == TaskType.work)
+        .toList();
   }
 
   List<Task> get onlyPersonalList {
-    return _items.where((element) => element.taskType == TaskType.personal).toList();
+    return _items
+        .where((element) => element.taskType == TaskType.personal)
+        .toList();
   }
 
   TaskType parseTaskType(String value) {
     final enumString = value.split('.').last;
     return TaskType.values.firstWhere(
-          (type) => type.toString().split('.').last == enumString,
-
+      (type) => type.toString().split('.').last == enumString,
     );
   }
 
@@ -42,8 +45,6 @@ class Tasks with ChangeNotifier {
       }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((taskId, taskData) {
-        print('this is dateTime ${taskData['dateTime']}');
-        print('this taskId $taskId');
         loadedTasks.add(Task(
             id: taskId,
             title: taskData['title'],
@@ -52,8 +53,7 @@ class Tasks with ChangeNotifier {
             // image: taskData['image'],
             dateTime: DateTime.parse(taskData['dateTime']),
             isUrgent: taskData['isUrgent'],
-            isCompleted: taskData['isCompleted']
-        ));
+            isCompleted: taskData['isCompleted']));
       });
       _items = loadedTasks;
       notifyListeners();
@@ -66,7 +66,6 @@ class Tasks with ChangeNotifier {
     final url = Uri.parse(
         'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks.json');
 
-
     try {
       var response = await http.post(url,
           body: json.encode({
@@ -76,70 +75,48 @@ class Tasks with ChangeNotifier {
             'dateTime': task.dateTime.toString(),
             'isUrgent': task.isUrgent,
             'isCompleted': task.isCompleted
-
-          })
-      );
+          }));
       final newTask = Task(
-          id: DateTime.now().toString(),
-          title: task.title,
-          taskType: task.taskType,
-          description: task.description,
-          // image: task.image,
-          dateTime: task.dateTime,
-          isUrgent: task.isUrgent,
-          isCompleted: task.isCompleted,
-
+        id: DateTime.now().toString(),
+        title: task.title,
+        taskType: task.taskType,
+        description: task.description,
+        dateTime: task.dateTime,
+        isUrgent: task.isUrgent,
+        isCompleted: task.isCompleted,
       );
 
       _items.add(newTask);
 
       notifyListeners();
     } catch (error) {
-      print('error addTask functions $error');
-
       rethrow;
     }
   }
 
-  Task findById(String id){
+  Task findById(String id) {
     return _items.firstWhere((element) => element.id == id);
   }
 
   Future<void> updateTask(String? id, Task newTask) async {
     final taskIndex = _items.indexWhere((task) => task.id == id);
 
-    print('updateTask work');
-    print('taskIndex $taskIndex');
+    final url = Uri.parse(
+        'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks/$id.json');
 
-    if (taskIndex >= 0) {
-      final url = Uri.parse(
-          'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks/$id.json');
+    await http.patch(url,
+        body: json.encode({
+          'title': newTask.title,
+          'taskType': newTask.taskType.toString(),
+          'description': newTask.description,
+          // 'image': newTask.image,
+          'dateTime': newTask.dateTime.toString(),
+          'isUrgent': newTask.isUrgent,
+          'isCompleted': newTask.isCompleted,
+        }));
 
-      print('newTask id ${newTask.id}');
-      print('newTask id ${newTask.title}');
-      print('newTask id ${newTask.taskType}');
-      print('newTask id ${newTask.description}');
-      print('newTask id ${newTask.dateTime}');
-      print('newTask id ${newTask.isUrgent}');
-      print('newTask id ${newTask.dateTime}');
-
-      await http.patch(url,
-          body: json.encode({
-            'title': newTask.title,
-            'taskType': newTask.taskType.toString(),
-            'description': newTask.description,
-            // 'image': newTask.image,
-            'dateTime': newTask.dateTime.toString(),
-            'isUrgent': newTask.isUrgent,
-            'isCompleted': newTask.isCompleted,
-
-          }));
-
-      _items[taskIndex] = newTask;
-      notifyListeners();
-    } else {
-      print('....');
-    }
+    _items[taskIndex] = newTask;
+    notifyListeners();
   }
 
   Future<void> deleteTask(String id) async {

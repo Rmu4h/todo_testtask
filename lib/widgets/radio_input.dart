@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../providers/task.dart';
-import 'custom_radio.dart';
 
 // enum TaskType { work, personal }
 
 class RadioInput extends StatefulWidget {
   final TaskType initialValue;
-  Task newTask;
-  // final TaskType taskType;
+  final Task newTask;
 
   final void Function(TaskType) onChanged;
 
-
-  RadioInput({
+  const RadioInput({
     Key? key,
     required this.initialValue,
     required this.newTask,
-    // required this.initialValue,
     required this.onChanged,
   }) : super(key: key);
 
@@ -44,56 +40,48 @@ class _RadioInputState extends State<RadioInput> {
         children: [
           Expanded(
             child: ListTile(
-              contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
-              title: const Text('Робочі', style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18
-              ),),
-              leading: InkWell(
-                onTap: () {
-                  setState(() {
-                    taskType = TaskType.work;
-                    widget.onChanged(taskType!);
-                    widget.newTask.taskType = TaskType.work;
-                  });
-                },
-                child: Container(
-                  width: 30.0,
-                  height: 30.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFDBDBDB),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFFDBDBDB),
-                      width: 7.0,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: taskType == TaskType.work
-                        ? Container(
-                      // width: 23.0,
-                      // height: 23.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFFFD600),
-                      ),
-                    )
-                        : Container(
-                      // width: 23.0,
-                      // height: 23.0,
-                    ),
-                  ),
+                contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                title: const Text(
+                  'Робочі',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                 ),
-              )
-            ),
+                leading: InkWell(
+                  onTap: () {
+                    setState(() {
+                      taskType = TaskType.work;
+                      widget.onChanged(taskType!);
+                      widget.newTask.taskType = TaskType.work;
+                    });
+                  },
+                  child: Container(
+                    width: 30.0,
+                    height: 30.0,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFDBDBDB),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFFDBDBDB),
+                        width: 7.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: taskType == TaskType.work
+                          ? Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFFFD600),
+                              ),
+                            )
+                          : Container(),
+                    ),
+                  ),
+                )),
           ),
           Expanded(
             child: ListTile(
               contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
-              title: const Text('Особисті', style: TextStyle(
-                  fontSize: 18
-              )),
+              title: const Text('Особисті', style: TextStyle(fontSize: 18)),
               leading: InkWell(
                 onTap: () {
                   setState(() {
@@ -116,17 +104,12 @@ class _RadioInputState extends State<RadioInput> {
                     padding: const EdgeInsets.all(0.0),
                     child: taskType == TaskType.personal
                         ? Container(
-                      // width: 23.0,
-                      // height: 23.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFFFD600),
-                      ),
-                    )
-                        : Container(
-                      // width: 23.0,
-                      // height: 23.0,
-                    ),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFFFFD600),
+                            ),
+                          )
+                        : Container(),
                   ),
                 ),
               ),

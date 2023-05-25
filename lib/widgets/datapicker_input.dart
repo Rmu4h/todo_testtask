@@ -38,27 +38,22 @@ class _DataPickerInputState extends State<DataPickerInput> {
                 contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
 
                 onTap: () => _selectDate(context),
-                title:
-                    Text(DateFormat.yMMMMd('uk').format(currentDate),
-                      style: TextStyle(
-                        color: Theme
-                            .of(context)
-                            .colorScheme
-                            .secondary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ), // yMMMMd
+                title: Text(
+                  DateFormat.yMMMMd('uk').format(currentDate),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ), // yMMMMd
               )
             : ListTile(
                 contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
                 onTap: () => _selectDate(context),
-                title: Text('Дата завершення:',
+                title: Text(
+                  'Дата завершення:',
                   style: TextStyle(
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .secondary,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),

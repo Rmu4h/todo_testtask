@@ -4,7 +4,8 @@ class CustomCheckbox extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
-  CustomCheckbox({required this.value, required this.onChanged});
+  const CustomCheckbox(
+      {super.key, required this.value, required this.onChanged});
 
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
@@ -43,10 +44,10 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         ),
         child: _value
             ? Icon(
-          Icons.check,
-          size: 20.0,
-          color: Theme.of(context).colorScheme.secondary,
-        )
+                Icons.check,
+                size: 20.0,
+                color: Theme.of(context).colorScheme.secondary,
+              )
             : null,
       ),
     );

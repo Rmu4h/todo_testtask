@@ -19,55 +19,46 @@ class _TaskItemState extends State<TaskItem> {
 
   @override
   Widget build(BuildContext context) {
-  final task = Provider.of<Task>(context, listen: false);
+    final task = Provider.of<Task>(context, listen: false);
 
-    print('task ${task}');
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       decoration: BoxDecoration(
-          color: task.isUrgent ? const Color(0xFFFF8989) :  const Color(0xFFDBDBDB),
-          borderRadius: BorderRadius.circular(15)
-        //more than 50% of width makes circle
-      ),
-      // padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
-
+          color:
+              task.isUrgent ? const Color(0xFFFF8989) : const Color(0xFFDBDBDB),
+          borderRadius: BorderRadius.circular(15)),
       child: ListTile(
         onTap: () {
           Navigator.of(context).pushNamed(EditTaskScreen.routeName,
               arguments: Task(
-                  id: task.id,
-                  title: task.title,
-                  taskType: task.taskType,
-                  description: task.description,
-                  image: task.image,
-                  dateTime: task.dateTime,
-                  isUrgent: task.isUrgent,
-
-              )
-          );
+                id: task.id,
+                title: task.title,
+                taskType: task.taskType,
+                description: task.description,
+                image: task.image,
+                dateTime: task.dateTime,
+                isUrgent: task.isUrgent,
+              ));
         },
-       leading: (task.taskType == TaskType.work) ? const Icon(Icons.work_outline) : const Icon(Icons.home_outlined),
+        leading: (task.taskType == TaskType.work)
+            ? const Icon(Icons.work_outline)
+            : const Icon(Icons.home_outlined),
         title: Text(task.title),
         subtitle: Text(task.dateTime.toString()),
-
         trailing: Consumer<Task>(
-          builder:(context, task, _) => IconButton(
-              onPressed: (){
-                print('IconButton work');
-                task.toggleCompletedStatus(task.id, task.isCompleted);
+          builder: (context, task, _) => IconButton(
+            onPressed: () {
+              task.toggleCompletedStatus(task.id, task.isCompleted);
+            },
+            icon: CustomCheckbox(
+              value: task.isCompleted,
+              onChanged: (value) {
+                setState(() {
+                  task.toggleCompletedStatus(task.id, task.isCompleted);
+                });
               },
-              icon: CustomCheckbox(
-                value: task.isCompleted,
-                onChanged: (value) {
-                  setState(() {
-                    print('is checked ${task.isCompleted}');
-                    // task.isCompleted = value;
-                    task.toggleCompletedStatus(task.id, task.isCompleted);
-
-                  });
-                },
-              ),
             ),
+          ),
         ),
       ),
     );

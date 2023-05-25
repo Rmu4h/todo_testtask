@@ -14,15 +14,13 @@ class _ImageInputState extends State<ImageInput> {
   XFile? _storedImage;
 
   Future<void> _takePicture() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
 
     final imageFile =
-        await _picker.pickImage(source: ImageSource.camera, maxHeight: 600);
+        await picker.pickImage(source: ImageSource.camera, maxHeight: 600);
     setState(() {
       _storedImage = imageFile;
     });
-
-    print('_storedImage ${_storedImage!.path}');
   }
 
   @override
@@ -35,12 +33,10 @@ class _ImageInputState extends State<ImageInput> {
             child: ListTile(
               contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
               onTap: _takePicture,
-              title: Text('Прикріпити файл',
+              title: Text(
+                'Прикріпити файл',
                 style: TextStyle(
-                  color: Theme
-                      .of(context)
-                      .colorScheme
-                      .secondary,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -52,57 +48,38 @@ class _ImageInputState extends State<ImageInput> {
             padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
             color: const Color(0xFFFBEFB4),
             child: ListTile(
-              contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-              title: Text('Вкладене зображення',
+              contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
+              title: Text(
+                'Вкладене зображення',
                 style: TextStyle(
-                  color: Theme
-                      .of(context)
-                      .colorScheme
-                      .secondary,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  // height: 1.2,
                 ),
               ),
               subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(0, 13, 0, 15),
-                  height: 236,
-                  width: 236,
-                  child: Image.file(
-                    File(_storedImage!.path),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _storedImage = null;
-                    });
-                  },
-                  icon: const Icon(Icons.clear),
-                ),
-              ]),
-              // trailing: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              //       IconButton(
-              //         onPressed: () {},
-              //         icon: const Icon(Icons.clear),
-              //       ),
-              //     ]));
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(0, 13, 0, 15),
+                      height: 236,
+                      width: 236,
+                      child: Image.file(
+                        File(_storedImage!.path),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _storedImage = null;
+                        });
+                      },
+                      icon: const Icon(Icons.clear),
+                    ),
+                  ]),
             ),
           );
-    // return Row(
-    //   children: [
-    //     Container(
-    //       width: 200,
-    //       height: 200,
-    //       child: _storedImage != null ? Image.file(File(_storedImage!.path), fit: BoxFit.cover, width: double.infinity,) : Text('Прикріпити файл', textAlign: TextAlign.center,),
-    //     ),
-    //     TextButton(onPressed: _takePicture, child: const Text('Прикріпити файл'))
-    //   ],
-    // );
   }
 }

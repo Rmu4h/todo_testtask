@@ -27,41 +27,32 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     // TODO: implement didChangeDependencies
     taskValues = ModalRoute.of(context)!.settings.arguments as Task;
 
-    // editedTask = Provider.of<Tasks>(context, listen: false).findById(editedTask.id);
     super.didChangeDependencies();
   }
 
   Future<void> _saveUpdatedForm(
       id, title, taskType, description, dateTime, isUrgent, isCompleted) async {
     final editedTask = Task(
-        id: id,
-        title: title,
-        taskType: taskType,
-        description: description,
-        dateTime: dateTime,
-        isUrgent: isUrgent,
-        isCompleted: isCompleted,
+      id: id,
+      title: title,
+      taskType: taskType,
+      description: description,
+      dateTime: dateTime,
+      isUrgent: isUrgent,
+      isCompleted: isCompleted,
     );
     await Provider.of<Tasks>(context, listen: false).updateTask(id, editedTask);
   }
 
-  Future<void> _deleteTask(id) async{
+  Future<void> _deleteTask(id) async {
     await Provider.of<Tasks>(context, listen: false).deleteTask(id);
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     final titleController = TextEditingController(text: taskValues.title);
     TextEditingController descriptionController =
         TextEditingController(text: taskValues.description);
-
-    // final task = Provider.of<Tasks>(context, listen: false);
-
-    // print('taskValues ${task.id}');
-    print('taskValues title ${taskValues}');
 
     return Scaffold(
       body: Container(
@@ -76,7 +67,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         child: Form(
           key: _formKey,
           child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(36, 70, 36, 23),
@@ -111,25 +101,20 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
                           return null;
                         },
-                        onSaved: (value) {
-                          // newTask = Task(id: newTask.id,
-                          //     title: value ?? '',
-                          //     taskType: TaskType.work,
-                          //     description: newTask.description,
-                          //     image: newTask.image,
-                          //     dateTime: newTask.dateTime,
-                          //     isUrgent: newTask.isUrgent,
-                          // );
-                          print('on Saved work');
-                        },
-                        // controller: _titleController,
+                        onSaved: (value) {},
                       ),
                     ),
                     IconButton(
                         onPressed: () {
-                          _saveUpdatedForm(taskValues.id,titleController.text, taskValues.taskType, descriptionController.text, taskValues.dateTime,  taskValues.isUrgent, taskValues.isCompleted);
+                          _saveUpdatedForm(
+                              taskValues.id,
+                              titleController.text,
+                              taskValues.taskType,
+                              descriptionController.text,
+                              taskValues.dateTime,
+                              taskValues.isUrgent,
+                              taskValues.isCompleted);
                           Navigator.of(context).pop();
-
                         },
                         icon: Icon(
                           Icons.done,
@@ -142,18 +127,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               RadioInput(
                 initialValue: taskValues.taskType,
                 onChanged: (value) {
-                  // Handle the selected value change here
-                  // newTask = Task(id: newTask.id,
-                  //     title: newTask.title,
-                  //     taskType: value,
-                  //     description: newTask.description,
-                  //     image: newTask.image,
-                  //     dateTime: newTask.dateTime,
-                  //     isUrgent: newTask.isUrgent,
-                  //
-                  // );
                   selectedTaskType = value;
-                  print('Selected value: $value');
                 },
                 newTask: taskValues,
               ),
@@ -164,9 +138,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
                 color: const Color(0xFFFBEFB4),
                 child: TextFormField(
-                  // initialValue: taskValues.description,
                   controller: descriptionController,
-                  // initialValue: 'Додати опис...',
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   validator: (value) {
@@ -179,17 +151,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
                     return null;
                   },
-                  onSaved: (value) {
-                    // newTask = Task(id: newTask.id,
-                    //     title: newTask.title,
-                    //     taskType: newTask.taskType,
-                    //     description: value ?? '',
-                    //
-                    //     image: newTask.image,
-                    //     dateTime: newTask.dateTime);
-
-                    print('onSaved _newTask ${taskValues}');
-                  },
+                  onSaved: (value) {},
                 ),
               ),
               const SizedBox(
@@ -212,19 +174,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   leading: InkWell(
                     onTap: () {
                       setState(() {
-                        // taskType = TaskType.work;
-                        // widget.onChanged(taskType!);
                         taskValues.isUrgent = !taskValues.isUrgent;
-                        // newTask = Task(id: newTask.id,
-                        //   title: newTask.title,
-                        //   taskType: newTask.taskType,
-                        //   description: newTask.description,
-                        //   image: newTask.image,
-                        //   dateTime: newTask.dateTime,
-                        //   isUrgent: isUrgent,
-                        // );
-
-                        print('this is isUrgent value ${taskValues.isUrgent}');
                       });
                     },
                     child: Container(
@@ -242,17 +192,12 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         padding: const EdgeInsets.all(0.0),
                         child: taskValues.isUrgent
                             ? Container(
-                                // width: 23.0,
-                                // height: 23.0,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color(0xFFFFD600),
                                 ),
                               )
-                            : Container(
-                                // width: 23.0,
-                                // height: 23.0,
-                                ),
+                            : Container(),
                       ),
                     ),
                   ),
@@ -262,7 +207,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      // height: 1.2,
                     ),
                   ),
                 ),
@@ -279,17 +223,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       ),
                       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
                   onPressed: () {
-                    // _saveForm();
                     _deleteTask(taskValues.id);
                     Navigator.of(context).pop();
-                    print('form saved');
-
-                    print('this is title newTask ${taskValues.title}');
-                    print('this is isUrgent newTask ${taskValues.isUrgent}');
-                    print('this is dateTime newTask ${taskValues.dateTime}');
-
-                    // Navigator.of(context).pushNamed(TasksOverviewScreen.routeName);
-                    // Navigator.of(context).pop();
                   },
                   child: Text(
                     'Видалити',
@@ -297,7 +232,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
-                      // height: 1.2,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -306,20 +240,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
             ],
           ),
         ),
-        // child: Center(child: Column(
-        //   children: [
-        //     Text('${taskValues.id}'),
-        //     Text('${taskValues.title}'),
-        //     Text('${taskValues.taskType}'),
-        //
-        //     Text('${taskValues.description}'),
-        //     Text('${taskValues.image}'),
-        //     Text('${taskValues.dateTime}'),
-        //     Text('${taskValues.isUrgent}'),
-        //
-        //
-        //   ],
-        // )),
       ),
     );
   }

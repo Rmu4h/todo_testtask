@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           Locale('uk'), // Spanish
         ],
         theme: ThemeData(
+          // useMaterial3: true,
 
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: const Color(0xFFFFD600),
