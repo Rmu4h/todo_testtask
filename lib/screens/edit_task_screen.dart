@@ -45,6 +45,10 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     await Provider.of<Tasks>(context, listen: false).updateTask(id, editedTask);
   }
 
+  Future<void> _deleteTask(id) async{
+    await Provider.of<Tasks>(context, listen: false).deleteTask(id);
+  }
+
 
 
 
@@ -276,6 +280,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
                   onPressed: () {
                     // _saveForm();
+                    _deleteTask(taskValues.id);
+                    Navigator.of(context).pop();
                     print('form saved');
 
                     print('this is title newTask ${taskValues.title}');

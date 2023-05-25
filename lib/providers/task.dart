@@ -1,5 +1,3 @@
-
-import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -7,7 +5,7 @@ import 'package:flutter/material.dart';
 
 enum TaskType { work, personal }
 
-class Task with ChangeNotifier{
+class Task with ChangeNotifier {
   final String? id;
   final String title;
   TaskType taskType;
@@ -17,52 +15,40 @@ class Task with ChangeNotifier{
   bool isUrgent;
   bool isCompleted;
 
-
   Task({
-   required this.id,
-   required this.title,
-   this.taskType = TaskType.work,
-   required this.description,
+    required this.id,
+    required this.title,
+    this.taskType = TaskType.work,
+    required this.description,
     this.image,
-  required this.dateTime,
-   this.isUrgent = false,
+    required this.dateTime,
+    this.isUrgent = false,
     this.isCompleted = false,
   });
 
-
-  void _setCompletedValue(bool newValue){
+  void _setCompletedValue(bool newValue) {
     isCompleted = newValue;
     notifyListeners();
   }
 
-  Future<void> toggleCompletedStatus(String? taskId, bool isCompleted) async{
-    print('toggleCompletedStatus func work value  ${isCompleted}');
-
+  Future<void> toggleCompletedStatus(String? taskId, bool isCompleted) async {
     final oldStatus = isCompleted;
     isCompleted = !isCompleted;
-    print('isCompleted value  ${isCompleted}');
-    print('this is taskId $taskId');
+
     final url = Uri.parse(
         'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks/$taskId.json');
 
-
-    try{
+    try {
       final response = await http.patch(
-          url,
-          // body: json.encode(
-          //   isCompleted,
-          // )
+        url,
         body: '{"isCompleted": $isCompleted}',
       );
-      print('isCompleted try work  ${isCompleted}');
 
       //if something goes wrong, the completed status should remain the old one
-      if(response.statusCode >= 400){
+      if (response.statusCode >= 400) {
         _setCompletedValue(oldStatus);
       }
-    }catch(error){
-      print('isCompleted error work  ${isCompleted}');
-
+    } catch (error) {
       _setCompletedValue(oldStatus);
     }
   }

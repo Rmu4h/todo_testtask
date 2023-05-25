@@ -10,6 +10,7 @@ class Tasks with ChangeNotifier {
   ];
 
   List<Task> get tasks{
+    print('this is items length ${_items.length}');
     return [..._items];
   }
 
@@ -120,7 +121,7 @@ class Tasks with ChangeNotifier {
       print('newTask id ${newTask.description}');
       print('newTask id ${newTask.dateTime}');
       print('newTask id ${newTask.isUrgent}');
-      print('newTask id ${newTask.isCompleted}');
+      print('newTask id ${newTask.dateTime}');
 
       await http.patch(url,
           body: json.encode({
