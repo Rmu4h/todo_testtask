@@ -43,6 +43,7 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
 
   @override
   Widget build(BuildContext context) {
+    print('build overv work');
     final tasksData = Provider.of<Tasks>(context);
     final tasks = tasksData.tasks;
     final onlyWorkTask = tasksData.onlyWorkList;
@@ -170,15 +171,20 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                   );
                 } else {
                   return Consumer<Tasks>(
-                    builder: (context, taskData, child) => ListView.builder(
-                      itemCount: taskData.tasks.length,
-                      itemBuilder: (context, index) {
-                        return ChangeNotifierProvider.value(
-                          value: tasks[index],
-                          child: TaskItem(taskData.tasks[index]),
-                        );
-                      },
-                    ),
+                    builder: (context, taskData, child) {
+
+
+                      return ListView.builder(
+                        itemCount: taskData.tasks.length,
+                        itemBuilder: (context, index) {
+                          return ChangeNotifierProvider.value(
+                            // key: Key(taskData.tasks[index].id ?? ''),
+                            value: taskData.tasks[index],
+                            child: TaskItem(taskData.tasks[index]),
+                          );
+                        },
+                      );
+                    }
                   );
                 }
               }
@@ -196,16 +202,23 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
               end: Alignment.bottomRight,
             )),
             child: Consumer<Tasks>(
-              builder: (context, taskData, child) => ListView.builder(
-                itemCount: taskData.onlyWorkList.length,
-                itemBuilder: (context, index) {
-                  return ChangeNotifierProvider.value(
-                    value: onlyWorkTask[index],
-                    child: TaskItem(taskData.onlyWorkList[index]),
-                  );
-                },
-              ),
-            )),
+              builder: (context, taskData, child) {
+                print('taskData.onlyWorkList.lengt ${taskData.onlyWorkList.length}');
+                return ListView.builder(
+                  itemCount: taskData.onlyWorkList.length,
+                  itemBuilder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                      // key: Key(taskData.onlyWorkList[index].id ?? ''),
+                      value: onlyWorkTask[index],
+                      child: TaskItem(taskData.onlyWorkList[index]),
+                    );
+                  },
+                );
+              }
+            )
+          // child: const Text('only onlyWorkList'),
+
+        ),
         Container(
             padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
             width: double.infinity,
@@ -217,16 +230,23 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
               end: Alignment.bottomRight,
             )),
             child: Consumer<Tasks>(
-              builder: (context, taskData, child) => ListView.builder(
-                itemCount: taskData.onlyPersonalList.length,
-                itemBuilder: (context, index) {
-                  return ChangeNotifierProvider.value(
-                    value: onlyPersonalTask[index],
-                    child: TaskItem(taskData.onlyPersonalList[index]),
-                  );
-                },
-              ),
-            )),
+              builder: (context, taskData, child) {
+                print('taskData.onlyPersonalList.lengt ${taskData.onlyPersonalList.length}');
+
+                return ListView.builder(
+                  itemCount: taskData.onlyPersonalList.length,
+                  itemBuilder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                      // key: Key(taskData.onlyPersonalList[index].id ?? ''),
+                      value: onlyPersonalTask[index],
+                      child: TaskItem(taskData.onlyPersonalList[index]),
+                    );
+                  },
+                );
+              },
+            )
+          // child: const Text('only personal'),
+        ),
       ]),
       floatingActionButton: SizedBox(
         width: 71,

@@ -31,14 +31,19 @@ class Task with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleCompletedStatus(String? taskId, bool isCompleted) async {
+  //remove bool isCompleted;
+  Future<void> toggleCompletedStatus(String? taskId, ) async {
     final oldStatus = isCompleted;
     isCompleted = !isCompleted;
+
+    print('this is id $taskId');
 
     final url = Uri.parse(
         'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks/$taskId.json');
 
     try {
+      print('this is isCompleted $isCompleted');
+
       final response = await http.patch(
         url,
         body: '{"isCompleted": $isCompleted}',

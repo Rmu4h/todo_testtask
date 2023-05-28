@@ -56,6 +56,7 @@ class Tasks with ChangeNotifier {
             isCompleted: taskData['isCompleted']));
       });
       _items = loadedTasks;
+      // print('this is fetch items ${_items}');
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -67,7 +68,7 @@ class Tasks with ChangeNotifier {
         'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks.json');
 
     try {
-      var response = await http.post(url,
+      final response = await http.post(url,
           body: json.encode({
             'title': task.title,
             'taskType': task.taskType.toString(),
@@ -76,8 +77,13 @@ class Tasks with ChangeNotifier {
             'isUrgent': task.isUrgent,
             'isCompleted': task.isCompleted
           }));
+      print('task title ${task.title}');
+      print('task dateTime ${task.dateTime}');
+      print('this is json decode res.body name${json.decode(response.body)['name']}');
+
       final newTask = Task(
-        id: DateTime.now().toString(),
+        id: json.decode(response.body)['name'],
+        // id: task.id,
         title: task.title,
         taskType: task.taskType,
         description: task.description,
@@ -87,7 +93,6 @@ class Tasks with ChangeNotifier {
       );
 
       _items.add(newTask);
-
       notifyListeners();
     } catch (error) {
       rethrow;

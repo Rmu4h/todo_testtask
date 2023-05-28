@@ -81,6 +81,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     });
 
     Navigator.of(context).pop();
+    // setState(() {});
   }
 
   @override

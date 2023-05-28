@@ -49,13 +49,13 @@ class _TaskItemState extends State<TaskItem> {
         trailing: Consumer<Task>(
           builder: (context, task, _) => IconButton(
             onPressed: () {
-              task.toggleCompletedStatus(task.id, task.isCompleted);
+              task.toggleCompletedStatus(task.id);
             },
             icon: CustomCheckbox(
               value: task.isCompleted,
               onChanged: (value) {
                 setState(() {
-                  task.toggleCompletedStatus(task.id, task.isCompleted);
+                  task.toggleCompletedStatus(task.id);
                 });
               },
             ),
