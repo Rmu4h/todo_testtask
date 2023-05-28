@@ -11,7 +11,7 @@ class Task with ChangeNotifier {
   TaskType taskType;
   final String description;
   final File? image;
-  final DateTime dateTime;
+  DateTime dateTime;
   bool isUrgent;
   bool isCompleted;
 

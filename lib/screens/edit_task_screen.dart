@@ -18,6 +18,7 @@ class EditTaskScreen extends StatefulWidget {
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
   TaskType selectedTaskType = TaskType.work;
+  DateTime selectedDate = DateTime(2017);
 
   final _formKey = GlobalKey<FormState>();
   late Task taskValues;
@@ -161,7 +162,12 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               const SizedBox(
                 height: 16,
               ),
-              const DataPickerInput(),
+              DataPickerInput(
+                  initialDateTime: taskValues.dateTime,
+                  onChanged: (dateTimeValue) {
+                    taskValues.dateTime = dateTimeValue;
+                  }
+              ),
               const SizedBox(
                 height: 16,
               ),

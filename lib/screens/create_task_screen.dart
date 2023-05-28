@@ -188,7 +188,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    const DataPickerInput(),
+                    DataPickerInput(
+                      initialDateTime: selectedDate,
+                      onChanged: (dateTimeValue) {
+                        selectedDate = dateTimeValue;
+                      }
+                    ),
                     const SizedBox(
                       height: 16,
                     ),

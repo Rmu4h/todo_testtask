@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DataPickerInput extends StatefulWidget {
-  const DataPickerInput({Key? key}) : super(key: key);
+  final DateTime initialDateTime;
+  final void Function(DateTime) onChanged;
+
+  const DataPickerInput({Key? key, required this.initialDateTime ,required this.onChanged,}) : super(key: key);
 
   @override
   State<DataPickerInput> createState() => _DataPickerInputState();
@@ -22,6 +25,8 @@ class _DataPickerInputState extends State<DataPickerInput> {
 
     if (pickedDate != null && pickedDate != currentDate) {
       setState(() {
+        widget.onChanged(pickedDate);
+        // widget.initialDateTime = pickedDate;
         currentDate = pickedDate;
         showTime = true;
       });
