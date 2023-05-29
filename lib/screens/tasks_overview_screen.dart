@@ -147,102 +147,111 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
           ),
         ),
       ),
-      body: TabBarView(controller: _tabController, children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )),
-          child: FutureBuilder(
-            future: _tasksListFuture,
-            builder: (context, dataSnapshot) {
-              if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                if (dataSnapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${dataSnapshot.error}'),
-                  );
+      body: TabBarView(
+          controller: _tabController,
+          children: [
+        RefreshIndicator(
+          onRefresh: () => _obtainTasksFuture(),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            )),
+            child: FutureBuilder(
+              future: _tasksListFuture,
+              builder: (context, dataSnapshot) {
+                if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
                 } else {
-                  return Consumer<Tasks>(
-                    builder: (context, taskData, child) {
-
-
-                      return ListView.builder(
-                        itemCount: taskData.tasks.length,
-                        itemBuilder: (context, index) {
-                          return ChangeNotifierProvider.value(
-                            // key: Key(taskData.tasks[index].id ?? ''),
-                            value: taskData.tasks[index],
-                            child: TaskItem(taskData.tasks[index]),
-                          );
-                        },
-                      );
-                    }
-                  );
+                  if (dataSnapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${dataSnapshot.error}'),
+                    );
+                  } else {
+                    return Consumer<Tasks>(
+                      builder: (context, taskData, child) {
+                        return ListView.builder(
+                          itemCount: taskData.tasks.length,
+                          itemBuilder: (context, index) {
+                            return ChangeNotifierProvider.value(
+                              // key: Key(taskData.tasks[index].id ?? ''),
+                              value: taskData.tasks[index],
+                              child: TaskItem(taskData.tasks[index]),
+                            );
+                          },
+                        );
+                      }
+                    );
+                  }
                 }
-              }
-            },
+              },
+            ),
           ),
         ),
-        Container(
-            padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-              colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )),
-            child: Consumer<Tasks>(
-              builder: (context, taskData, child) {
-                return ListView.builder(
-                  itemCount: taskData.onlyWorkList.length,
-                  itemBuilder: (context, index) {
-                    return ChangeNotifierProvider.value(
-                      // key: Key(taskData.onlyWorkList[index].id ?? ''),
-                      value: onlyWorkTask[index],
-                      child: TaskItem(taskData.onlyWorkList[index]),
-                    );
-                  },
-                );
-              }
-            )
-          // child: const Text('only onlyWorkList'),
+        RefreshIndicator(
+          onRefresh: () => _obtainTasksFuture(),
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )),
+              child: Consumer<Tasks>(
+                builder: (context, taskData, child) {
+                  return ListView.builder(
+                    itemCount: taskData.onlyWorkList.length,
+                    itemBuilder: (context, index) {
+                      return ChangeNotifierProvider.value(
+                        // key: Key(taskData.onlyWorkList[index].id ?? ''),
+                        value: onlyWorkTask[index],
+                        child: TaskItem(taskData.onlyWorkList[index]),
+                      );
+                    },
+                  );
+                }
+              )
+            // child: const Text('only onlyWorkList'),
 
+          ),
         ),
-        Container(
-            padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-              colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )),
-            child: Consumer<Tasks>(
-              builder: (context, taskData, child) {
+        RefreshIndicator(
+          onRefresh: () => _obtainTasksFuture(),
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xFFA9A9A9), Color(0xFF383838)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )),
+              child: Consumer<Tasks>(
+                builder: (context, taskData, child) {
 
-                return ListView.builder(
-                  itemCount: taskData.onlyPersonalList.length,
-                  itemBuilder: (context, index) {
-                    return ChangeNotifierProvider.value(
-                      // key: Key(taskData.onlyPersonalList[index].id ?? ''),
-                      value: onlyPersonalTask[index],
-                      child: TaskItem(taskData.onlyPersonalList[index]),
-                    );
-                  },
-                );
-              },
-            )
-          // child: const Text('only personal'),
+                  return ListView.builder(
+                    itemCount: taskData.onlyPersonalList.length,
+                    itemBuilder: (context, index) {
+                      return ChangeNotifierProvider.value(
+                        // key: Key(taskData.onlyPersonalList[index].id ?? ''),
+                        value: onlyPersonalTask[index],
+                        child: TaskItem(taskData.onlyPersonalList[index]),
+                      );
+                    },
+                  );
+                },
+              )
+            // child: const Text('only personal'),
+          ),
         ),
       ]),
       floatingActionButton: SizedBox(
