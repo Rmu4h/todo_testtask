@@ -51,8 +51,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController(text: taskValues.title);
-    TextEditingController descriptionController =
+    final TextEditingController titleController =
+        TextEditingController(text: taskValues.title);
+    final TextEditingController descriptionController =
         TextEditingController(text: taskValues.description);
 
     return Scaffold(
@@ -128,7 +129,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               RadioInput(
                 initialValue: taskValues.taskType,
                 onChanged: (value) {
-                  selectedTaskType = value;
+                  // selectedTaskType = value;
+                  taskValues.taskType = value;
                 },
                 newTask: taskValues,
               ),
@@ -166,8 +168,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   initialDateTime: taskValues.dateTime,
                   onChanged: (dateTimeValue) {
                     taskValues.dateTime = dateTimeValue;
-                  }
-              ),
+                  }),
               const SizedBox(
                 height: 16,
               ),
