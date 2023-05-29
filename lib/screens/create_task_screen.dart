@@ -34,6 +34,13 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       dateTime: DateTime.now());
   bool _isLoading = false;
 
+  @override
+  void dispose(){
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
+
   Future<void> _saveForm() async {
     final isValid = _formKey.currentState?.validate();
     String title = titleController.text;

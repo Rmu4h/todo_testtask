@@ -43,7 +43,6 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
 
   @override
   Widget build(BuildContext context) {
-    print('build overv work');
     final tasksData = Provider.of<Tasks>(context);
     final tasks = tasksData.tasks;
     final onlyWorkTask = tasksData.onlyWorkList;
@@ -203,7 +202,6 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
             )),
             child: Consumer<Tasks>(
               builder: (context, taskData, child) {
-                print('taskData.onlyWorkList.lengt ${taskData.onlyWorkList.length}');
                 return ListView.builder(
                   itemCount: taskData.onlyWorkList.length,
                   itemBuilder: (context, index) {
@@ -231,7 +229,6 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
             )),
             child: Consumer<Tasks>(
               builder: (context, taskData, child) {
-                print('taskData.onlyPersonalList.lengt ${taskData.onlyPersonalList.length}');
 
                 return ListView.builder(
                   itemCount: taskData.onlyPersonalList.length,

@@ -36,13 +36,11 @@ class Task with ChangeNotifier {
     final oldStatus = isCompleted;
     isCompleted = !isCompleted;
 
-    print('this is id $taskId');
 
     final url = Uri.parse(
         'https://flutter-todo-testtask-default-rtdb.firebaseio.com/tasks/$taskId.json');
 
     try {
-      print('this is isCompleted $isCompleted');
 
       final response = await http.patch(
         url,

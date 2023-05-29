@@ -10,7 +10,6 @@ class Tasks with ChangeNotifier {
   ];
 
   List<Task> get tasks {
-    print('this is items length ${_items.length}');
     return [..._items];
   }
 
@@ -56,7 +55,6 @@ class Tasks with ChangeNotifier {
             isCompleted: taskData['isCompleted']));
       });
       _items = loadedTasks;
-      // print('this is fetch items ${_items}');
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -77,9 +75,6 @@ class Tasks with ChangeNotifier {
             'isUrgent': task.isUrgent,
             'isCompleted': task.isCompleted
           }));
-      print('task title ${task.title}');
-      print('task dateTime ${task.dateTime}');
-      print('this is json decode res.body name${json.decode(response.body)['name']}');
 
       final newTask = Task(
         id: json.decode(response.body)['name'],

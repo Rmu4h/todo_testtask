@@ -23,12 +23,36 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   final _formKey = GlobalKey<FormState>();
   late Task taskValues;
 
+  final TextEditingController titleController =
+  TextEditingController();
+  final TextEditingController descriptionController =
+  TextEditingController();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     taskValues = ModalRoute.of(context)!.settings.arguments as Task;
 
+    titleController.text = taskValues.title;
+    descriptionController.text = taskValues.description;
     super.didChangeDependencies();
+  }
+
+
+  @override
+  void dispose(){
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
   }
 
   Future<void> _saveUpdatedForm(
@@ -51,10 +75,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController titleController =
-        TextEditingController(text: taskValues.title);
-    final TextEditingController descriptionController =
-        TextEditingController(text: taskValues.description);
+
 
     return Scaffold(
       body: Container(
