@@ -14,3 +14,7 @@ Technology stack:
 2. FLUTTER
 3. Provider state management
 4. Firebase server
+
+
+https://github.com/Rmu4h/todo_testtask/assets/51286978/adb5de8c-b240-48a3-afe9-121a8726489e
+
