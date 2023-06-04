@@ -5,9 +5,7 @@ import 'package:todo_testtask/providers/task.dart';
 import 'package:http/http.dart' as http;
 
 class Tasks with ChangeNotifier {
-  List<Task> _items = [
-    // Task(id: 'i1', title: 'Work task', description: 'create resume', image: image, dateTime: dateTime)
-  ];
+  List<Task> _items = [];
 
   List<Task> get tasks {
     return [..._items];

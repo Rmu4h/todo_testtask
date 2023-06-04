@@ -16,13 +16,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: Tasks(),
-        ),
-      ],
+    return ChangeNotifierProvider(
+      create: (context) => Tasks(),
       child: MaterialApp(
         title: 'Flutter Demo',
         localizationsDelegates: const [
@@ -34,41 +29,21 @@ class MyApp extends StatelessWidget {
           Locale('uk'), // Spanish
         ],
         theme: ThemeData(
-
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: const Color(0xFFFFD600),
             secondary: const Color(0xFF383838),
           ),
           fontFamily: 'SF UI Display',
-            tabBarTheme: const TabBarTheme(
-              labelPadding: EdgeInsets.zero, // Remove default padding around label
-
-              // labelColor: Colors.pink[800],
-              // unselectedLabelColor: Colors.grey, // Text color for unselected tab
-              labelColor: Color(0xFF383838), // Text color for selected tab
-              // indicator: BoxDecoration(
-              //   color: Colors.blue, // Background color for selected tab
-              // ),
-              // Set the background color for unselected tab using a custom child widget
-              // unselectedLabelStyle: TextStyle(
-              //   color: Colors.white, // Text color for unselected tab
-              // ),
-              // labelStyle: TextStyle(
-              //   fontWeight: FontWeight.bold, // Text style for selected tab
-              // ),
-              // unselectedTabColor: Colors.red, // Колір фону невибраної вкладки
-              //   labelStyle: TextStyle(color: Colors.pink[800]), // color for text
-              //   indicator: UnderlineTabIndicator( // color for indicator (underline)
-              //       borderSide: BorderSide(color: Colors.greenAccent)),
-              //   unselectedLabelColor: Colors.deepOrange,
-              // unselectedLabelStyle: TextStyle(
-              //     backgroundColor: Colors.greenAccent
-              // )
-            ),
+          tabBarTheme: const TabBarTheme(
+            labelPadding: EdgeInsets.zero,
+            labelColor: Color(0xFF383838), // Text color for selected tab
+          ),
         ),
-        home: const AuthScreen(), //CreateTaskScreen(),   //const AuthScreen(),
+        home: const AuthScreen(),
+        //CreateTaskScreen(),   //const AuthScreen(),
         routes: {
-          TasksOverviewScreen.routeName: (context) => const TasksOverviewScreen(),
+          TasksOverviewScreen.routeName: (context) =>
+              const TasksOverviewScreen(),
           CreateTaskScreen.routeName: (context) => const CreateTaskScreen(),
           EditTaskScreen.routeName: (context) => const EditTaskScreen(),
         },

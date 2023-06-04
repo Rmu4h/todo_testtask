@@ -1,6 +1,3 @@
-
-class Auth{
-
-  Future<void> authenticate() async {
-  }
+class Auth {
+  Future<void> authenticate() async {}
 }

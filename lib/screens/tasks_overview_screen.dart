@@ -43,10 +43,10 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
 
   @override
   Widget build(BuildContext context) {
-    final tasksData = Provider.of<Tasks>(context);
-    final tasks = tasksData.tasks;
-    final onlyWorkTask = tasksData.onlyWorkList;
-    final onlyPersonalTask = tasksData.onlyPersonalList;
+    // final tasksData = Provider.of<Tasks>(context);
+    // final tasks = tasksData.tasks;
+    // final onlyWorkTask = tasksData.onlyWorkList;
+    // final onlyPersonalTask = tasksData.onlyPersonalList;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -85,10 +85,14 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                         ? const Color(0xFFFBEFB4)
                         : const Color(0xFFDBDBDB),
                   ),
-                  child: const Center(child: Text('Усі', style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),)),
+                  child: const Center(
+                      child: Text(
+                    'Усі',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )),
                 ),
               ),
               GestureDetector(
@@ -111,10 +115,12 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                         ? const Color(0xFFFBEFB4)
                         : const Color(0xFFDBDBDB),
                   ),
-                  child: const Center(child: Text('Робочі', style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ))),
+                  child: const Center(
+                      child: Text('Робочі',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ))),
                 ),
               ),
               GestureDetector(
@@ -137,19 +143,19 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                         ? const Color(0xFFFBEFB4)
                         : const Color(0xFFDBDBDB),
                   ),
-                  child: const Center(child: Text('Особисті', style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ))),
+                  child: const Center(
+                      child: Text('Особисті',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ))),
                 ),
               ),
             ],
           ),
         ),
       ),
-      body: TabBarView(
-          controller: _tabController,
-          children: [
+      body: TabBarView(controller: _tabController, children: [
         RefreshIndicator(
           onRefresh: () => _obtainTasksFuture(),
           child: Container(
@@ -173,20 +179,18 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                       child: Text('Error: ${dataSnapshot.error}'),
                     );
                   } else {
-                    return Consumer<Tasks>(
-                      builder: (context, taskData, child) {
-                        return ListView.builder(
-                          itemCount: taskData.tasks.length,
-                          itemBuilder: (context, index) {
-                            return ChangeNotifierProvider.value(
-                              // key: Key(taskData.tasks[index].id ?? ''),
-                              value: taskData.tasks[index],
-                              child: TaskItem(taskData.tasks[index]),
-                            );
-                          },
-                        );
-                      }
-                    );
+                    return Consumer<Tasks>(builder: (context, taskData, child) {
+                      return ListView.builder(
+                        itemCount: taskData.tasks.length,
+                        itemBuilder: (context, index) {
+                          return ChangeNotifierProvider.value(
+                            // key: Key(taskData.tasks[index].id ?? ''),
+                            value: taskData.tasks[index],
+                            child: TaskItem(taskData.tasks[index]),
+                          );
+                        },
+                      );
+                    });
                   }
                 }
               },
@@ -205,23 +209,21 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )),
-              child: Consumer<Tasks>(
-                builder: (context, taskData, child) {
-                  return ListView.builder(
-                    itemCount: taskData.onlyWorkList.length,
-                    itemBuilder: (context, index) {
-                      return ChangeNotifierProvider.value(
-                        // key: Key(taskData.onlyWorkList[index].id ?? ''),
-                        value: onlyWorkTask[index],
-                        child: TaskItem(taskData.onlyWorkList[index]),
-                      );
-                    },
-                  );
-                }
-              )
-            // child: const Text('only onlyWorkList'),
+              child: Consumer<Tasks>(builder: (context, taskData, child) {
+                return ListView.builder(
+                  itemCount: taskData.onlyWorkList.length,
+                  itemBuilder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                      // key: Key(taskData.onlyWorkList[index].id ?? ''),
+                      value: taskData.onlyWorkList[index],
+                      child: TaskItem(taskData.onlyWorkList[index]),
+                    );
+                  },
+                );
+              })
+              // child: const Text('only onlyWorkList'),
 
-          ),
+              ),
         ),
         RefreshIndicator(
           onRefresh: () => _obtainTasksFuture(),
@@ -237,21 +239,20 @@ class _TasksOverviewScreenState extends State<TasksOverviewScreen>
               )),
               child: Consumer<Tasks>(
                 builder: (context, taskData, child) {
-
                   return ListView.builder(
                     itemCount: taskData.onlyPersonalList.length,
                     itemBuilder: (context, index) {
                       return ChangeNotifierProvider.value(
                         // key: Key(taskData.onlyPersonalList[index].id ?? ''),
-                        value: onlyPersonalTask[index],
+                        value: taskData.onlyPersonalList[index],
                         child: TaskItem(taskData.onlyPersonalList[index]),
                       );
                     },
                   );
                 },
               )
-            // child: const Text('only personal'),
-          ),
+              // child: const Text('only personal'),
+              ),
         ),
       ]),
       floatingActionButton: SizedBox(

@@ -35,13 +35,13 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   bool _isLoading = false;
 
   @override
-  void dispose(){
+  void dispose() {
     titleController.dispose();
     descriptionController.dispose();
     super.dispose();
   }
 
-  Future<void> _saveForm() async {
+  Future<void> _saveForm(BuildContext context) async {
     final isValid = _formKey.currentState?.validate();
     String title = titleController.text;
     String description = descriptionController.text;
@@ -87,7 +87,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       _isLoading = false;
     });
 
-    Navigator.of(context).pop();
+    if (context.mounted) Navigator.of(context).pop();
     // setState(() {});
   }
 
@@ -162,7 +162,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
                       color: const Color(0xFFFBEFB4),
                       child: TextFormField(
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                             labelText: 'Додати опис...',
                             border: InputBorder.none,
                             labelStyle: TextStyle(
@@ -196,11 +196,10 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       height: 16,
                     ),
                     DataPickerInput(
-                      initialDateTime: selectedDate,
-                      onChanged: (dateTimeValue) {
-                        selectedDate = dateTimeValue;
-                      }
-                    ),
+                        initialDateTime: selectedDate,
+                        onChanged: (dateTimeValue) {
+                          selectedDate = dateTimeValue;
+                        }),
                     const SizedBox(
                       height: 16,
                     ),
@@ -264,7 +263,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                             ),
                             padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
                         onPressed: () {
-                          _saveForm();
+                          _saveForm(context);
                         },
                         child: Text(
                           'Створити',

@@ -5,7 +5,11 @@ class DataPickerInput extends StatefulWidget {
   final DateTime initialDateTime;
   final void Function(DateTime) onChanged;
 
-  const DataPickerInput({Key? key, required this.initialDateTime ,required this.onChanged,}) : super(key: key);
+  const DataPickerInput({
+    Key? key,
+    required this.initialDateTime,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   State<DataPickerInput> createState() => _DataPickerInputState();
